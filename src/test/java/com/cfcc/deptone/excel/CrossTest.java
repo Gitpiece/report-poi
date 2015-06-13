@@ -10,7 +10,7 @@ import com.cfcc.deptone.excel.poi.support.CrossTabHeader;
 import com.cfcc.deptone.excel.util.POIExcelUtil;
 import com.cfcc.deptone.excel.util.TreeNode;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -47,7 +47,7 @@ public class CrossTest {
     /**
      * 测试生成交叉报表的列表头
      */
-    @org.junit.Test
+    @Test
     public void testTreeColumn() {
         POICrossTab head1 = new POICrossTab("title1");
         POICrossTab head2 = new POICrossTab("title2");

@@ -1,15 +1,18 @@
 package com.cfcc.deptone.excel;
 
 import com.cfcc.deptone.excel.util.TreeNode;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class TreeNodeTest {
 
-	@org.junit.Before
+	@BeforeTest
 	public void before() {
 
 	}
 
-	@org.junit.Test
+	@Test
 	public void test() {
 		TreeNode<String> root = new TreeNode<String>();
 		root.setData("root");
@@ -24,7 +27,7 @@ public class TreeNodeTest {
 		root.removeChild(A);
 //		System.out.println(root.getSize());
 		
-		org.junit.Assert.assertNotNull(A.getParent());
+		Assert.assertNotNull(A.getParent());
 		
 		root.insertChild(A);
 //		System.out.println(root.getSize());

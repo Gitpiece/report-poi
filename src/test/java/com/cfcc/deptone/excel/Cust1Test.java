@@ -11,16 +11,17 @@ import org.apache.commons.io.FileUtils;
 import com.cfcc.deptone.excel.data.TestData;
 import com.cfcc.deptone.excel.gen.ExcelBuilderFactory;
 import com.cfcc.deptone.excel.gen.ExcelBuilder;
+import org.testng.annotations.Test;
 
 public class Cust1Test {
 
-	@org.junit.Test
+	@Test
 	public void tesetCustRpt2003() throws Exception{
 		FileUtils.copyFile(new File(TestData.resourcePath + "cust1.xls"),new File(TestData.reportPath + "cust1-out.xls"));
 		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
 		excelBuilder.build(TestData.reportPath+"cust1-out.xls", getMetadata(), getCrossList());
 	}
-	@org.junit.Test
+	@Test
 	public void tesetCustRpt2007() throws Exception{
 		FileUtils.copyFile(new File(TestData.resourcePath + "cust1.xlsx"),new File(TestData.reportPath + "cust1-out.xlsx"));
 		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();

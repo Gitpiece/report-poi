@@ -5,8 +5,8 @@ import com.cfcc.deptone.excel.gen.ExcelBuilder;
 import com.cfcc.deptone.excel.gen.ExcelBuilderFactory;
 import com.cfcc.deptone.excel.gen.POIException;
 import com.cfcc.deptone.excel.util.POIExcelUtil;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Map;

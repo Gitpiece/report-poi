@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
 
 import com.cfcc.deptone.excel.data.TestData;
 import com.cfcc.deptone.excel.gen.ExcelBuilderFactory;
 import com.cfcc.deptone.excel.gen.ExcelBuilder;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class NormalDoubleinputTest {
 	Map<String, Object> metadata;
-	@Before
+	@BeforeTest
 	public void beforetest() throws IOException{
 		metadata = TestData.getMetadata();
 		metadata.put("num", "#{normal.SN}");

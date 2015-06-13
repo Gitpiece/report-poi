@@ -5,7 +5,7 @@ import com.cfcc.deptone.excel.gen.ExcelBuilderFactory;
 import com.cfcc.deptone.excel.gen.POIException;
 import com.cfcc.deptone.excel.util.ExcelConsts;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;

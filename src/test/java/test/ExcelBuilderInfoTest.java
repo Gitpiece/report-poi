@@ -1,8 +1,8 @@
 package test;
 
 import com.cfcc.deptone.excel.gen.inner.ExcelBuilderInfo;
-import junit.framework.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;

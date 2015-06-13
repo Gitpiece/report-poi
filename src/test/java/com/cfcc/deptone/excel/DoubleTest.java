@@ -3,10 +3,11 @@ package com.cfcc.deptone.excel;
 import java.math.BigDecimal;
 
 import com.cfcc.deptone.excel.util.POIExcelUtil;
+import org.testng.annotations.Test;
 
 public class DoubleTest {
 
-	@org.junit.Test
+	@Test
 	public void test(){
 		Double d = new Double(125D);
 		System.out.println(Float.MAX_VALUE);

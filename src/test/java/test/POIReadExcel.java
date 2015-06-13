@@ -17,7 +17,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 public class POIReadExcel {
 
