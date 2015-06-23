@@ -31,6 +31,7 @@ import java.util.Map;
  * @author WangHuanyu
  */
 public class POIExcelUtil {
+    private static StringManager sm = StringManager.getManager("com.cfcc.deptone.excel.gen.inner");
     private POIExcelUtil() {
         //single
     }
@@ -66,7 +67,12 @@ public class POIExcelUtil {
     public static Object getPropertyValue(Object object, String propertyName, Map<String, Method> methodMap) {
         //如果是如果是apache dynaBean，通过DynaBean接口获取属性值
         if (object instanceof DynaBean) {
-            return ((DynaBean) object).get(propertyName);
+            try {
+                return ((DynaBean) object).get(propertyName);
+            } catch (IllegalArgumentException ie) {
+                LOGGER.error(ie.getMessage(), ie);
+                Assert.isTrue(false,sm.getString("poi.data.propertynotexist",propertyName));
+            }
         }
         //通过反射方式获取属性值
         Method method;
@@ -82,6 +88,7 @@ public class POIExcelUtil {
             obj = method.invoke(object);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
+            Assert.isTrue(false, sm.getString("poi.data.propertynotexist", propertyName));
         }
         return obj;
     }
