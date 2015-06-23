@@ -443,4 +443,12 @@ public class POISheet implements ISheet {
         }
         return dataLeftColumn;
     }
+
+    public int getColumnWidth(int columnIndex) {
+        return this.sheet.getColumnWidth(columnIndex);
+    }
+
+    public void setColumnWidth(int columnIndex, int width) {
+        this.sheet.setColumnWidth(columnIndex,width);
+    }
 }

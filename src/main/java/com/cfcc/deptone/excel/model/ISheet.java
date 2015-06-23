@@ -250,4 +250,18 @@ public interface ISheet {
      * @return
      */
     int getDataLeftColumn();
+
+    /**
+     * 获取列宽
+     * @param columnIndex - the column to set (0-based)
+     * @return width - the width in units of 1/256th of a character width
+     */
+    int getColumnWidth(int columnIndex);
+    /**
+     * 设置列宽
+     * @param columnIndex - the column to set (0-based)
+     * @param width - the width in units of 1/256th of a character width
+     * @throws IllegalArgumentException if width > 255*256 (the maximum column width in Excel is 255 characters)
+     */
+    void setColumnWidth(int columnIndex, int width);
 }

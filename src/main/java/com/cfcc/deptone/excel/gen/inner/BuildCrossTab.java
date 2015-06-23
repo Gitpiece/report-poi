@@ -48,10 +48,11 @@ public class BuildCrossTab implements BuildStep {
 
     public void build(ISheet sheet) throws POIException {
         this.sheet = sheet;
-
         ccolomnhead = POIExcelUtil.getAllColumnCross(sheet.getAllCrossTab());
         crowhead = POIExcelUtil.getAllRowCross(sheet.getAllCrossTab());
         cdata = POIExcelUtil.getAllDataCross(sheet.getAllCrossTab());
+        //数据列宽
+        int datacolumnwidth = this.sheet.getColumnWidth(cdata.get(0).getOriginalColumn());
 
         columntree = this.buildCrossTabHeader(ccolomnhead, sheet.getData());
         rowtree = this.buildCrossTabHeader(crowhead, sheet.getData());
@@ -70,7 +71,7 @@ public class BuildCrossTab implements BuildStep {
         fillDataMatrix(dataMatrix, sheet.getData());
 
         //把数据矩阵写入excel
-        writeDataMatrix(dataMatrix);
+        writeDataMatrix(dataMatrix,datacolumnwidth);
         //把表头写入excel
         writeColumnHead(0, columntree);
         writeRowHead(0, rowtree);
@@ -79,13 +80,13 @@ public class BuildCrossTab implements BuildStep {
 
     /**
      * @param x      偏移X
-     * @param parent
+     * @param parent 父节点
      */
     private void writeColumnHead(int x, CrossTabTreeNode<CrossTabHeader> parent) {
         TreeNode<CrossTabHeader>[] treenode = parent.getAllChild();
         int offX = x, leafcount;
-        for (int i = 0; i < treenode.length; i++) {
-            CrossTabTreeNode<CrossTabHeader> treeNode2 = (CrossTabTreeNode<CrossTabHeader>) treenode[i];
+        for (TreeNode<CrossTabHeader> aTreenode : treenode) {
+            CrossTabTreeNode<CrossTabHeader> treeNode2 = (CrossTabTreeNode<CrossTabHeader>) aTreenode;
 
             ICrossTab crossTab = treeNode2.getCrossTab();
             //得到当前节点的子节点个数
@@ -106,8 +107,8 @@ public class BuildCrossTab implements BuildStep {
     private void writeRowHead(int y, CrossTabTreeNode<CrossTabHeader> parent) {
         TreeNode<CrossTabHeader>[] treenode = parent.getAllChild();
         int offy = y, leafcount;
-        for (int i = 0; i < treenode.length; i++) {
-            CrossTabTreeNode<CrossTabHeader> treeNode2 = (CrossTabTreeNode<CrossTabHeader>) treenode[i];
+        for (TreeNode<CrossTabHeader> aTreenode : treenode) {
+            CrossTabTreeNode<CrossTabHeader> treeNode2 = (CrossTabTreeNode<CrossTabHeader>) aTreenode;
 
             ICrossTab crossTab = treeNode2.getCrossTab();
             //得到当前节点的子节点个数
@@ -129,22 +130,32 @@ public class BuildCrossTab implements BuildStep {
      * 数据矩阵写入excel
      *
      * @param dataMatrix 数据矩阵
+     * @param datacolumnwidth 数据列宽
      */
-    private void writeDataMatrix(CrossTabData[][] dataMatrix) {
+    private void writeDataMatrix(CrossTabData[][] dataMatrix,int datacolumnwidth) {
+        boolean setdatacolumnwidth=false;
         for (int irow = 0; irow < dataMatrix.length; irow++) {
             CrossTabData[] rowDatas = dataMatrix[irow];
+
             for (int icolumn = 0; icolumn < rowDatas.length; icolumn++) {
                 CrossTabData cellData = rowDatas[icolumn];
                 //
+                int row = cellData.getCrossTabDataPOI().getOriginalRow() + irow;
+                int column = cellData.getCrossTabDataPOI().getOriginalColumn() + icolumn;
                 Object value = cellData.getOriginalObj() != null ? POIExcelUtil.getPropertyValue(cellData.getOriginalObj(), cellData.getCrossTabDataPOI()
                         .getPropertyName(), methodMap) : "";
-                cellData.getCrossTabDataPOI()
-                        .setCoordinate(cellData.getCrossTabDataPOI().getOriginalRow() + irow,
-                                cellData.getCrossTabDataPOI().getOriginalColumn() + icolumn);
+                cellData.getCrossTabDataPOI().setCoordinate(row, column);
                 cellData.getCrossTabDataPOI().setCellStyle();
-                sheet.setCellValue(cellData.getCrossTabDataPOI().getOriginalRow() + irow, cellData.getCrossTabDataPOI()
-                        .getOriginalColumn() + icolumn, cellData.getCrossTabDataPOI(), value);
+                cellData.getCrossTabDataPOI().setValue(value);
+                //sheet.setCellValue(row, column, cellData.getCrossTabDataPOI(), value);
+
+                //设置数据列宽
+                if(!setdatacolumnwidth){
+                    this.sheet.setColumnWidth(cellData.getCrossTabDataPOI().getOriginalColumn() + icolumn,datacolumnwidth);
+                }
             }
+
+            setdatacolumnwidth = true;
         }
     }
 
@@ -158,8 +169,7 @@ public class BuildCrossTab implements BuildStep {
     private void mergedRegion(ISheet sheet, int offrow, int offcolumn) {
 
         // 标题列合并
-        for (Iterator<ICrossTab> iterator = ccolomnhead.iterator(); iterator.hasNext(); ) {
-            ICrossTab crossTab = iterator.next();
+        for (ICrossTab crossTab : ccolomnhead) {
             int originalrow = crossTab.getOriginalRow(),
                     originalcolumn = crossTab.getOriginalColumn();
             int preColumnIndex = -1;//前一个不为空的坐标
@@ -191,8 +201,7 @@ public class BuildCrossTab implements BuildStep {
         }
 
         // 标题行合并
-        for (Iterator<ICrossTab> iterator = crowhead.iterator(); iterator.hasNext(); ) {
-            ICrossTab crossTab = iterator.next();
+        for (ICrossTab crossTab : crowhead) {
             int originalrow = crossTab.getOriginalRow(),
                     originalcolumn = crossTab.getOriginalColumn();
             int preRowIndex = -1;//前一个不为空的坐标
@@ -232,8 +241,7 @@ public class BuildCrossTab implements BuildStep {
      * @param data       报表数据集合
      */
     private void fillDataMatrix(CrossTabData[][] dataMatrix, List<?> data) {
-        for (Iterator iterator = data.iterator(); iterator.hasNext(); ) {
-            Object object = (Object) iterator.next();
+        for (Object object : data) {
             CrossTabData crossTabData = new CrossTabData();
             crossTabData.setOriginalObj(object);
             crossTabData.setCrossTabDataPOI(this.cdata.get(0));//设置数据对应的交叉报表数据定义对象
@@ -241,7 +249,7 @@ public class BuildCrossTab implements BuildStep {
             dataMatrix[crossTabData.getPoint().getX()][crossTabData.getPoint().getY()] = crossTabData;
         }
 
-        //file empty element
+        //fill empty element
         for (int x = 0; x < dataMatrix.length; x++) {
             CrossTabData[] rowArray = dataMatrix[x];
             for (int y = 0; y < rowArray.length; y++) {
@@ -260,19 +268,18 @@ public class BuildCrossTab implements BuildStep {
      * 计算数据坐标
      *
      * @param crossTabData 数据对象
-     * @return
      */
     private void computePoint(CrossTabData crossTabData) {
         StringBuilder columnStr = new StringBuilder();
-        for (Iterator iterator = ccolomnhead.iterator(); iterator.hasNext(); ) {
-            POICrossTab crossTab = (POICrossTab) iterator.next();
+        for (ICrossTab aCcolomnhead : ccolomnhead) {
+            POICrossTab crossTab = (POICrossTab) aCcolomnhead;
             columnStr.append(String.valueOf(POIExcelUtil.getPropertyValue(crossTabData.getOriginalObj(),
                     crossTab.getPropertyName(), methodMap)));
             columnStr.append(">");
         }
         StringBuilder rowStr = new StringBuilder();
-        for (Iterator iterator = crowhead.iterator(); iterator.hasNext(); ) {
-            POICrossTab crossTab = (POICrossTab) iterator.next();
+        for (ICrossTab aCrowhead : crowhead) {
+            POICrossTab crossTab = (POICrossTab) aCrowhead;
             rowStr.append(String.valueOf(POIExcelUtil.getPropertyValue(crossTabData.getOriginalObj(),
                     crossTab.getPropertyName(), methodMap)));
             rowStr.append(">");
@@ -286,7 +293,7 @@ public class BuildCrossTab implements BuildStep {
     /**
      * 计算树坐标
      *
-     * @return
+     * @return 坐标值,left leaf count.
      */
     private int computeTreeCoordinate(TreeNode<CrossTabHeader> headroot, StringBuilder pathStr) {
         String[] pathArr = pathStr.toString().split(">");
@@ -315,14 +322,13 @@ public class BuildCrossTab implements BuildStep {
     /**
      * 计算节点叶子节点个数
      *
-     * @param root
-     * @return
+     * @param root 根节点
+     * @return 叶子个数
      */
     private int leafCount(TreeNode<CrossTabHeader> root) {
         TreeNode<CrossTabHeader>[] childs = root.getAllChild();
         int count = 0;
-        for (int i = 0; i < childs.length; i++) {
-            TreeNode<CrossTabHeader> treeNode = childs[i];
+        for (TreeNode<CrossTabHeader> treeNode : childs) {
             if (treeNode != null && treeNode.getAllChild().length > 0) {
                 count += leafCount(treeNode);
             } else {
@@ -338,21 +344,17 @@ public class BuildCrossTab implements BuildStep {
     /**
      * 整理表头信息
      *
-     * @param head
-     * @param listdata
+     * @param head 列表头集合
+     * @param listdata 数据集合
      */
     private CrossTabTreeNode<CrossTabHeader> buildCrossTabHeader(List<ICrossTab> head, List listdata) {
         CrossTabTreeNode<CrossTabHeader> columnTreeRoot = new CrossTabTreeNode<CrossTabHeader>();
 
         //循环数据
-        for (Iterator iterator = listdata.iterator(); iterator.hasNext(); ) {
-            Object dataObj = iterator.next();
-
+        for (Object dataObj : listdata) {
             //每一个数据对象，通过配置的头信息创建一个树的分支
             CrossTabTreeNode<CrossTabHeader> currentTreeParent = columnTreeRoot;
-            for (Iterator<ICrossTab> iterator2 = head.iterator(); iterator2.hasNext(); ) {
-                ICrossTab crossTab = iterator2.next();
-
+            for (ICrossTab crossTab : head) {
                 Object value = POIExcelUtil.getPropertyValue(dataObj, crossTab.getPropertyName(), methodMap);
                 //如果当前节点不包含 label 是 value的节点，创建子节点，并设置currentTreeParent为currentTreeNode
                 if (!currentTreeParent.containNode(String.valueOf(value))) {
@@ -383,8 +385,7 @@ public class BuildCrossTab implements BuildStep {
             ICrossTab crossTab = head.get(i);
             Collection<POIOperation> opCollection = crossTab.getPoiOperation();
             if (opCollection != null) {
-                for (Iterator<POIOperation> iterator = opCollection.iterator(); iterator.hasNext(); ) {
-                    POIOperation poiOperation = iterator.next();
+                for (POIOperation poiOperation : opCollection) {
                     if (POIOrderOperation.OPERATION.equals(poiOperation.getOperation())) {
                         doOrderOperation(columnTreeRoot, (POIOrderOperation) poiOperation, i + 1);
                     }
@@ -410,16 +411,14 @@ public class BuildCrossTab implements BuildStep {
         parentArray[0] = treeRoot;
         while (++i < level) {
             List<TreeNode> tmpList = new ArrayList<TreeNode>();
-            for (int j = 0; j < parentArray.length; j++) {
-                TreeNode<CrossTabHeader> treeNode = parentArray[j];
+            for (TreeNode<CrossTabHeader> treeNode : parentArray) {
                 tmpList.addAll(Arrays.asList(treeNode.getAllChild()));
             }
 
             parentArray = tmpList.toArray(new TreeNode[tmpList.size()]);
         }
         //对父下面的子节点进行排序，也就是第level层
-        for (int j = 0; j < parentArray.length; j++) {
-            TreeNode<CrossTabHeader> treeNode = parentArray[j];
+        for (TreeNode<CrossTabHeader> treeNode : parentArray) {
             treeNode.orderChild(orderOperation.getOrderType());
         }
     }

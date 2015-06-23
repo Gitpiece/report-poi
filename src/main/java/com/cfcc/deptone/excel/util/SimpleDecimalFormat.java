@@ -1,13 +1,14 @@
 package com.cfcc.deptone.excel.util;
 
 import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 /**
+ * SimpleDecimalFormat
  * Created by wanghuanyu on 2015/6/14.
  */
-public class SimpleDecimalFormat {//extends Format{
-
+public class SimpleDecimalFormat extends NumberFormat {
 
     // Constants for characters used in programmatic (unlocalized) patterns.
     private static final char       PATTERN_ZERO_DIGIT         = '0';
@@ -94,39 +95,50 @@ public class SimpleDecimalFormat {//extends Format{
     }
 
 
-    public StringBuilder format(Object obj){
+//    @Override
+//    public String format(Object obj){
+//        if(obj instanceof String){
+//            return this.formatString((String)obj, new StringBuffer(), new FieldPosition(0)).toString();
+//        }
+//
+//        return format(obj, new StringBuilder(), new FieldPosition(0)).toString();
+//    }
+
+    @Override
+    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         if(obj instanceof String){
-            return this.formatString((String)obj, new StringBuilder(), new FieldPosition(0));
+            return this.formatString((String)obj, new StringBuffer(), new FieldPosition(0));
         }
-
-        return this.format(obj,new StringBuilder(),new FieldPosition(0));
-
+        return this.format(obj,new StringBuffer(), new FieldPosition(0));
     }
 
-    private StringBuilder formatString(String obj, StringBuilder stringBuilder, FieldPosition fieldPosition) {
-        int beginIndex = fieldPosition.getBeginIndex();
-        int endIndex = fieldPosition.getEndIndex();
+    private StringBuffer formatString(String obj, StringBuffer stringBuilder, FieldPosition fieldPosition) {
         int dotindex = obj.lastIndexOf(PATTERN_DECIMAL_SEPARATOR);
-        StringBuilder lefttemp = new StringBuilder(obj.substring(0, dotindex));
+        if(dotindex<0){
+            dotindex=0;
+        }
+
+        StringBuilder withoutseparator = new StringBuilder();
+        withoutseparator.append(obj.substring(0, dotindex));
+        withoutseparator.append(obj.substring(dotindex+1,obj.length()));
+
         StringBuilder left = new StringBuilder();
-        String righttemp = obj.substring(dotindex+1,obj.length());
         StringBuilder right = new StringBuilder();
 
         if(percent){
-            int off = righttemp.length()<2?righttemp.length():2;
-            lefttemp.append(righttemp.substring(1,off));
-            righttemp =righttemp.substring(off+1,righttemp.length());
-        }
-        //left
-        int notfillcount = lefttemp.length()%left_digit_groupsize;
-        int looptime = (lefttemp.length())/left_digit_groupsize;
-        left.append(lefttemp.substring(lefttemp.length(),notfillcount));
-        for (int i = 0; i < looptime; i++) {
-            left.append(PATTERN_GROUPING_SEPARATOR).append(lefttemp.substring(notfillcount + (i + 1) * left_digit_groupsize, (i + 1) * left_digit_groupsize+notfillcount));
+            dotindex += 2 ;
         }
 
+        //left
+//        if(left_digit_groupsize == 0){
+//            stringBuilder.append(withoutseparator.substring(0,dotindex));
+//            int looptime = (lefttemp.length())/left_digit_groupsize;
+//            for (int i = 0; i < looptime; i++) {
+//                left.append(PATTERN_GROUPING_SEPARATOR).append(lefttemp.substring((i) * left_digit_groupsize, (i + 1) * left_digit_groupsize));
+//            }
+//        }
+
         //right
-        right.append(righttemp);
         if(right.length() < right_zero_digit){
             int supple = right_zero_digit-right.length();
             for (int i = 0; i < supple; i++) {
@@ -139,18 +151,29 @@ public class SimpleDecimalFormat {//extends Format{
         return stringBuilder;
     }
 
-    public StringBuilder format(Object obj, StringBuilder toAppendTo, FieldPosition pos) {
+//    private StringBuilder subformat(StringBuilder result,
+//                                   boolean isNegative, boolean isInteger,
+//                                   int maxIntDigits, int minIntDigits,
+//                                   int maxFraDigits, int minFraDigits) {
+//        return null;
+//    }
+
+//    public Object parseObject(String source, ParsePosition pos) {
+//        return null;
+//    }
+
+    @Override
+    public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
         return null;
     }
 
-    private StringBuilder subformat(StringBuilder result,
-                                   boolean isNegative, boolean isInteger,
-                                   int maxIntDigits, int minIntDigits,
-                                   int maxFraDigits, int minFraDigits) {
+    @Override
+    public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
         return null;
     }
 
-    public Object parseObject(String source, ParsePosition pos) {
+    @Override
+    public Number parse(String source, ParsePosition parsePosition) {
         return null;
     }
 }

@@ -39,9 +39,8 @@ public class BuildFooter implements BuildStep {
 
 
 			setMargin(footer);
-
-			sheet.setCellValue(footer.getRow() + sheet.getDataOffRow(), footer.getColumn(),footer, value);
-
+			footer.setCoordinate(footer.getRow() + sheet.getDataOffRow(),footer.getColumn());
+			sheet.setCellValue(footer.getRow(), footer.getColumn(), footer, value);
 			sheet.setCellRangeNCellStyle(footer);
 
 			//

@@ -42,7 +42,7 @@ public class SheetBuilderCrossTab extends AbstractSheetBuilder {
 		step.add(new BuildConst());
 		step.add(new BuildHeader());
 		step.add(new BuildFooter());
-		
+
 		step.add(new BuildFormula());
 	}
 

@@ -44,7 +44,7 @@ public class TestData {
         TempObj _tmp = new TempObj();
         _tmp.setSbtcode("101");
         _tmp.setName("税收收入");
-        _tmp.setNavelamt(0);
+//        _tmp.setNavelamt(0);
         _tmp.setNavelyearamt(0);
         _tmp.setLocalamt(new BigDecimal(237808580649999999999999999.07));
         _tmp.setLocalyearamt(111625891111.23);

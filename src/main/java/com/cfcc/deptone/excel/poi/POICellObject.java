@@ -17,7 +17,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.util.Collection;
 import java.util.List;
 
-public class POICellObject implements ICellObject ,InitBean{
+public class
+		POICellObject implements ICellObject ,InitBean{
 
 	private ISheet sheet;
 	private Cell cell;
