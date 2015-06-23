@@ -32,6 +32,7 @@ import java.util.Map;
  */
 public class POIExcelUtil {
     private static StringManager sm = StringManager.getManager("com.cfcc.deptone.excel.gen.inner");
+
     private POIExcelUtil() {
         //single
     }
@@ -71,7 +72,7 @@ public class POIExcelUtil {
                 return ((DynaBean) object).get(propertyName);
             } catch (IllegalArgumentException ie) {
                 LOGGER.error(ie.getMessage(), ie);
-                Assert.isTrue(false,sm.getString("poi.data.propertynotexist",propertyName));
+                Assert.isTrue(false, sm.getString("poi.data.propertynotexist", propertyName));
             }
         }
         //通过反射方式获取属性值
@@ -593,6 +594,39 @@ public class POIExcelUtil {
             }
         }
         return allRowCrossTab;
+    }
+
+    /**
+     * 获取excel文件的所有sheet页名称
+     *
+     * @param filepath excel文件绝对路径
+     * @return excel所有sheet页名称数组
+     */
+    public static String[] getAllSheetName(String filepath) throws POIException {
+
+        FileInputStream fileInputStream = null;
+        try {
+            //
+            fileInputStream = new FileInputStream(filepath);
+            Workbook workbook = WorkbookFactory.create(fileInputStream);
+            int numberofsheet = workbook.getNumberOfSheets();
+            String[] sheetnames = new String[numberofsheet];
+            for (int index = 0; index < numberofsheet; index++) {
+                sheetnames[index] = workbook.getSheetName(index);
+            }
+            return sheetnames;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new POIException(e);
+        } finally {
+            try {
+                if(fileInputStream != null){
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
     }
 
 }
