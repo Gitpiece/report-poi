@@ -65,53 +65,53 @@ public abstract class AbstractExcelBuilder implements ExcelBuilder {
         this.rptDataList = rptData;
 
         try {
-            //
-            fileInputStream = new FileInputStream(reportPath);
-            buildWorkBookInfo(fileInputStream);
+            try{
+                //
+                fileInputStream = new FileInputStream(reportPath);
+                buildWorkBookInfo(fileInputStream);
 
-            //构建报表构建信息
-            buildExcelBuilderInfoList();
+                //构建报表构建信息
+                buildExcelBuilderInfoList();
 
-            int activeIndex = -1;
-            for (ExcelBuilderInfo excelBuilderInfo : this.excelBuilderList) {
+                int activeIndex = -1;
+                for (ExcelBuilderInfo excelBuilderInfo : this.excelBuilderList) {
 
-                if (excelBuilderInfo.hasData()) {
-                    ISheet sheet = POIFactory.createSheet(workbook, excelBuilderInfo.getSheet());
+                    if (excelBuilderInfo.hasData()) {
+                        ISheet sheet = POIFactory.createSheet(workbook, excelBuilderInfo.getSheet());
 
-                    //加载sheet中定义的所有信息；并把sheet分类，由不同的sheet构建类进行构建
-                    sheet.load(excelBuilderInfo.getMetaDataMap(), excelBuilderInfo.getRptDataList());
-                    SheetBuilder builder = SheetBuilderFactory.getBuilder(sheet);
-                    builder.write();
-                    //第一个有数据的sheet页为活动sheet页
-                    if (activeIndex < 0) activeIndex = excelBuilderInfo.getIndex();
-                } else {
-                    //隐藏无数据的sheet页
-                    workbook.setSheetHidden(excelBuilderInfo.getIndex(), getSheetHiddenLevel());
+                        //加载sheet中定义的所有信息；并把sheet分类，由不同的sheet构建类进行构建
+                        sheet.load(excelBuilderInfo.getMetaDataMap(), excelBuilderInfo.getRptDataList());
+                        SheetBuilder builder = SheetBuilderFactory.getBuilder(sheet);
+                        builder.write();
+                        //第一个有数据的sheet页为活动sheet页
+                        if (activeIndex < 0) activeIndex = excelBuilderInfo.getIndex();
+                    } else {
+                        //隐藏无数据的sheet页
+                        workbook.setSheetHidden(excelBuilderInfo.getIndex(), getSheetHiddenLevel());
+                    }
                 }
-            }
 
-            //活动sheet也
-            workbook.setActiveSheet(activeIndex);
+                //活动sheet也
+                workbook.setActiveSheet(activeIndex);
 
-            // 写入文件
-            fileOutputStream = new FileOutputStream(reportPath);
-            workbook.write(fileOutputStream);
-
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new POIException(e);
-        } finally {
-            try {
+                // 写入文件
+                fileOutputStream = new FileOutputStream(reportPath);
+                workbook.write(fileOutputStream);
+            }finally{
                 if (fileInputStream != null) {
                     fileInputStream.close();
                 }
                 if (fileOutputStream != null) {
                     fileOutputStream.close();
                 }
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
-                throw new POIException(e);
             }
+
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new POIException(e);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new POIException(e);
         }
         return 0;
     }
