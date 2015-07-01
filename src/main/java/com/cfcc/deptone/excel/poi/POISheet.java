@@ -312,9 +312,10 @@ public class POISheet implements ISheet {
                 BigDecimal bigDecimal = (BigDecimal) value;
                 String tmpValue = POIExcelUtil.formateBigDecimal(bigDecimal);
                 if (tmpValue.replace(".", "").length() > ExcelConsts.NUMERICAL_VALID_DIGIT) {
-                    cell.setCellStyle(POIExcelUtil.createTextCellStyle(cellObject));
+                    cell.setCellStyle(cellObject.getCellStyle());
                     cell.setCellType(Cell.CELL_TYPE_STRING);
-                    cell.setCellValue(tmpValue);
+                    String pattern = cellObject.getDataFormat().replace("_","");
+                    cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal,pattern));
                 } else {
                     cell.setCellValue(bigDecimal.doubleValue());
                 }

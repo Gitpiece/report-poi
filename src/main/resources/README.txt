@@ -1,6 +1,7 @@
 变量说明
-	metaDataMap map		key-value数据集
-	rptResultList list	报表的数据集，集合中保存的是DTO对象，有序。
+	metaDataMap：Map类型，key-value数据集
+	rptResultList：List类型，报表的数据集，集合中保存的是DTO对象，有序。
+	表格批注：文本，添加批注之后，需要把批注中的内容清空再填写批注内容。
 ==================================================================================
 报表模板元素定义的格式为 #{type.[options]} ,
 type为元素类型，options部分每种元素不尽相同。在1.2.1版本之后，options会慢慢被批注方式替代。

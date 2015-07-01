@@ -237,9 +237,13 @@ public class POIExcelUtil {
         return placeHolderList;
     }
 
-    public static String formateBigDecimal(BigDecimal big) {
-        DecimalFormat df = new DecimalFormat("###0.00");
-        return df.format(big);
+    public static String formateBigDecimal(BigDecimal bd,String pattern) {
+        DecimalFormat df = new DecimalFormat(pattern);
+        return df.format(bd);
+    }
+
+    public static String formateBigDecimal(BigDecimal bd) {
+        return formateBigDecimal(bd, "###0.00");
     }
 
     /**

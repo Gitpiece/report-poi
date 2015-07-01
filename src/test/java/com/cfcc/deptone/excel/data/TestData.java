@@ -10,7 +10,7 @@ import java.util.*;
 public class TestData {
 
     public static final String resourcePath = System.getProperty("user.dir")
-            + File.separator + "src\\test\\resource" + File.separator;
+            + File.separator + "src\\test\\resources" + File.separator;
     public static final String reportPath = System.getProperty("user.dir")
             + File.separator + "target" + File.separator;
 
@@ -46,7 +46,7 @@ public class TestData {
         _tmp.setName("税收收入");
 //        _tmp.setNavelamt(0);
         _tmp.setNavelyearamt(0);
-        _tmp.setLocalamt(new BigDecimal(237808580649999999999999999.07));
+        _tmp.setLocalamt(new BigDecimal(999999999999999.8));
         _tmp.setLocalyearamt(111625891111.23);
         _tmp.setSUM_amt(0.07);
         _tmp.setSUM_yearamt(111625891111.23);
