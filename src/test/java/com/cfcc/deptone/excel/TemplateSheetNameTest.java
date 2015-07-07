@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,9 +22,10 @@ public class TemplateSheetNameTest {
     public void testSheetName1row1column() throws IOException, POIException {
         FileUtils.copyFile(new File(TestData.resourcePath + "creatReport-poi.xls"), new File(TestData.reportPath + "creatReport-poi-out.xls"));
 
+        Map map1 = TestData.getMetadata();
         Map map = TestData.getMetadata();
         map.put("title","测试单行单列报表");
         map.put(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME,"oneRowOneColumn");
-        ExcelBuilderFactory.getBuilder().build(TestData.reportPath + "creatReport-poi-out.xls", map, TestData.getListFor1row1column());
+        ExcelBuilderFactory.getBuilder().build(TestData.reportPath + "creatReport-poi-out.xls", new Map[]{map1,map}, new List[]{TestData.getListFor1row1column(),TestData.getListFor1row1column()});
     }
 }
