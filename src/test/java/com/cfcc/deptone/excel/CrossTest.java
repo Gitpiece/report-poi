@@ -26,6 +26,12 @@ public class CrossTest {
     }
 
     @Test
+    public void testCross2003_2() throws Exception {
+        FileUtils.copyFile(new File(TestData.resourcePath + "cross-2.xls"), new File(TestData.reportPath + "cross-2-out.xls"));
+        ExcelBuilderFactory.getBuilder().build(TestData.reportPath + "cross-2-out.xls", TestData.getMetadata(), TestData.getCrossList());
+    }
+
+    @Test
     public void testCross2007() throws Exception {
         FileUtils.copyFile(new File(TestData.resourcePath + "cross.xlsx"), new File(TestData.reportPath + "cross-out.xlsx"));
         ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();

@@ -241,6 +241,16 @@ public class TestData {
         _tmp.setEndamt(63.9);
         _tmp.setRate(20.00);
         list.add(_tmp);
+
+        _tmp = new TempObj();
+        _tmp.setTitle1("");
+        _tmp.setTitle2("合计");
+        _tmp.setTitle3("同比±(%)");
+        _tmp.setName("北京");
+        _tmp.setSbtcode("10101");
+        _tmp.setEndamt(63.9);
+        _tmp.setRate(20.00);
+        list.add(_tmp);
         return list;
     }
 

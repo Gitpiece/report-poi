@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+version = '1.2.2-SNAPSHOT'
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    //maven { url "http://repo.spring.io/release",url "http://maven.petrikainulainen.net/repo" }
+}
+
+dependencies {
+    compile 'org.apache.poi:poi-ooxml:3.10.1'
+    compile 'commons-logging:commons-logging:1.2'
+    compile 'commons-beanutils:commons-beanutils:1.7.0'
+    testCompile 'commons-io:commons-io:1.4'
+    testCompile 'org.testng:testng:6.9.4'
+}
