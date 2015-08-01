@@ -15,24 +15,24 @@ public interface BuildStep {
 	 * 
 	 * @return
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * 构建sheet步骤执行方法
 	 * @param sheet
 	 * @throws Exception
 	 */
-	public void build(ISheet sheet) throws POIException;
+	void build(ISheet sheet) throws POIException;
 
 	/**
 	 * 写入row之前操作
 	 * @throws Exception
 	 */
-	public void beforeRow() throws POIException;
+	void beforeRow() throws POIException;
 
 	/**
 	 * 写入row之后操作
 	 * @throws Exception
 	 */
-	public void afterRow() throws POIException;
+	void afterRow() throws POIException;
 }

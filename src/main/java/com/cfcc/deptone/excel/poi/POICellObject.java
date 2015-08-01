@@ -5,6 +5,7 @@ import com.cfcc.deptone.excel.model.ICellObject;
 import com.cfcc.deptone.excel.model.IPlaceHolder;
 import com.cfcc.deptone.excel.model.ISheet;
 import com.cfcc.deptone.excel.model.support.InitBean;
+import com.cfcc.deptone.excel.poi.operation.POIMarginOperation;
 import com.cfcc.deptone.excel.poi.operation.POIOperation;
 import com.cfcc.deptone.excel.poi.operation.POIOperationParser;
 import com.cfcc.deptone.excel.util.ExcelConsts;
@@ -14,6 +15,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -86,6 +88,16 @@ public class
 
 	public Collection<POIOperation> getPoiOperation() {
 		return poiOperation;
+	}
+
+	public Collection<POIOperation> getMarginPoiOperation(){
+		List<POIOperation> list = new ArrayList<POIOperation>();
+		for (POIOperation poiOperation :getPoiOperation()) {
+			if (POIMarginOperation.OPERATION.equals(poiOperation.getOperation())) {
+				list.add(poiOperation);
+			}
+		}
+		return list;
 	}
 
 	public String getDataFormat() {

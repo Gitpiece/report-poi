@@ -152,6 +152,13 @@ public interface ICellObject {
      * @return Poi扩展操作参数
      */
     Collection<POIOperation> getPoiOperation();
+
+    /**
+     * Poi margin扩展操作参数
+     *
+     * @return Poi扩展操作参数
+     */
+    Collection<POIOperation> getMarginPoiOperation();
     /**
      //	Color getColor();
      //	Font getFont();
