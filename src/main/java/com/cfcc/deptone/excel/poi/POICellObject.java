@@ -92,6 +92,7 @@ public class
 
 	public Collection<POIOperation> getMarginPoiOperation(){
 		List<POIOperation> list = new ArrayList<POIOperation>();
+		if(getPoiOperation() != null)
 		for (POIOperation poiOperation :getPoiOperation()) {
 			if (POIMarginOperation.OPERATION.equals(poiOperation.getOperation())) {
 				list.add(poiOperation);
