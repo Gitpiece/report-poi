@@ -144,7 +144,10 @@ public abstract class AbstractExcelBuilder implements ExcelBuilder {
 
         //遍历所有数据，整理ExcelBuilderInfo
         for (int i = 0; i < this.metaDataMap.length; i++) {
-            Object sheetname = this.metaDataMap[i].get(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME);
+            Object sheetname = null;
+            if(this.metaDataMap != null){
+                sheetname = this.metaDataMap[i].get(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME);
+            }
             //如果存在sheetname参数，按name查找sheet对象，创建构建信息。
             if (sheetname != null) {
                 Sheet sheet = this.workbook.getSheet(String.valueOf(sheetname));
