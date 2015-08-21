@@ -9,6 +9,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NormalTest {
@@ -38,6 +41,23 @@ public class NormalTest {
 			throw e;
 		}
 	}
+
+	/**
+	 * 测试普通报表。共三个sheet页，其中第1,3 sheet页的数据为Null。
+	 * @throws Exception
+	 */
+	@Test
+	public void testNormal2003_multsheet() throws Exception {
+		POIExcelUtil.copyFile(new File(TestData.resourcePath + "normal.xls"), new File(TestData.reportPath + "normal-outm.xls"));
+		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
+		List[] date = new ArrayList[3];
+		Map[] metadate = new HashMap[3];
+
+		date[1] = TestData.getNormalList();
+		metadate[1] = TestData.getMetadata();
+		excelBuilder.build(TestData.reportPath + "normal-outm.xls", metadate, date);
+	}
+
 	@Test
 	public void testNormal2007() throws Exception {
 		POIExcelUtil.copyFile(new File(TestData.resourcePath + "normal.xlsx"), new File(TestData.reportPath + "normal-out.xlsx"));
@@ -51,5 +71,6 @@ public class NormalTest {
 		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
 		excelBuilder.build( TestData.reportPath+"normal-subtotal-out.xls", TestData.getMetadata(), TestData.getNormalList());
 	}
-	
+
+
 }

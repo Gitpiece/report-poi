@@ -133,7 +133,7 @@ public abstract class AbstractExcelBuilder implements ExcelBuilder {
             Sheet sheet = this.workbook.getSheetAt(index);
             //如果包含报表数据，并且数据中不包含sheet名称参数：ExcelConsts.REPORT_TEMPLATE_SHEET_NAME
             //创建包含数据的“报表构建信息”。
-            if (containReportData(index) && !this.metaDataMap[index].containsKey(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME)) {
+            if (containReportData(index) && this.metaDataMap[index] != null && !this.metaDataMap[index].containsKey(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME)) {
                 excelBuilderList.add(new ExcelBuilderInfo(index, sheet, this.metaDataMap[index], this.rptDataList[index]));
             }
             //如果不包含报表数据，创建只包含sheet索引的“报表构建信息”。
@@ -145,7 +145,7 @@ public abstract class AbstractExcelBuilder implements ExcelBuilder {
         //遍历所有数据，整理ExcelBuilderInfo
         for (int i = 0; i < this.metaDataMap.length; i++) {
             Object sheetname = null;
-            if(this.metaDataMap != null){
+            if(this.metaDataMap[i] != null){
                 sheetname = this.metaDataMap[i].get(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME);
             }
             //如果存在sheetname参数，按name查找sheet对象，创建构建信息。

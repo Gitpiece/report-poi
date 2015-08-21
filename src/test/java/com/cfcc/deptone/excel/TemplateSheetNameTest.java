@@ -28,4 +28,16 @@ public class TemplateSheetNameTest {
         map.put(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME,"oneRowOneColumn");
         ExcelBuilderFactory.getBuilder().build(TestData.reportPath + "creatReport-poi-out.xls", new Map[]{map1,map}, new List[]{TestData.getListFor1row1column(),TestData.getListFor1row1column()});
     }
+
+    @Test
+    public void testSheetName() throws IOException, POIException {
+        FileUtils.copyFile(new File(TestData.resourcePath + "normal.xls"), new File(TestData.reportPath + "normal-sheetname-out.xls"));
+
+        Map map1 = TestData.getMetadata();
+        map1.put(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME,"sheet3");
+        Map map = TestData.getMetadata();
+        map.put("title","测试sheetname");
+        map.put(ExcelConsts.REPORT_TEMPLATE_SHEET_NAME,"sheet2");
+        ExcelBuilderFactory.getBuilder().build(TestData.reportPath + "normal-sheetname-out.xls", new Map[]{map1,map}, new List[]{TestData.getNormalList(),TestData.getNormalList()});
+    }
 }
