@@ -12,7 +12,7 @@ public class TestData {
     public static final String resourcePath = System.getProperty("user.dir")
             + File.separator + "src\\test\\resources" + File.separator;
     public static final String reportPath = System.getProperty("user.dir")
-            + File.separator + "target" + File.separator;
+            + File.separator + "build" + File.separator;
 
     public static Map<String, Object> getMetadata() {
         final Map<String, Object> _map = new HashMap<String, Object>();

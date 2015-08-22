@@ -24,7 +24,7 @@ public class FormatTest {
     }
 
 //    @Test
-    public void testMessageFormat() {
+/*    public void testMessageFormat() {
         int fileCount = 1273;
         String diskName = "MyDisk";
         Object[] testArgs = {new Long(fileCount), diskName};
@@ -45,7 +45,7 @@ public class FormatTest {
 
         System.out.println(form.format(testArgs));
     }
-
+*/
 //    @Test
     public void testDecimalFormat(){
         DecimalFormat numberFormat = new DecimalFormat(".00%");
@@ -56,7 +56,7 @@ public class FormatTest {
         System.out.println(numberFormat.format(55.02));
     }
 
-    @Test
+    //@Test
     public void testSimpleDecimalFormat(){
         SimpleDecimalFormat simpleDecimalFormat = new SimpleDecimalFormat("#,###.00##");
         BigDecimal bigDecimal = new BigDecimal("12345644584.154");
