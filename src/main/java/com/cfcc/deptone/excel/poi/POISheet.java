@@ -7,6 +7,8 @@ import com.cfcc.deptone.excel.util.Assert;
 import com.cfcc.deptone.excel.util.ExcelConsts;
 import com.cfcc.deptone.excel.util.POIExcelUtil;
 import com.cfcc.deptone.excel.util.StringManager;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -26,6 +28,7 @@ import java.util.*;
  * @author WangHuanyu
  */
 public class POISheet implements ISheet {
+    private Log logger = LogFactory.getLog(POISheet.class);
     protected StringManager sm = StringManager.getManager("com.cfcc.deptone.excel.gen.inner");
     private boolean loaded = false;
     private Workbook workbook = null;
@@ -49,6 +52,10 @@ public class POISheet implements ISheet {
     private List<ICellObject> others = new ArrayList<ICellObject>(0);
 
     private Map<String, Object> metaData = null;
+    /**
+     * bigDecimal 转化为string的样式缓存，key为定义的占位符。
+     */
+    private Map<String,CellStyle> bigdecimald2string = new HashMap<String, CellStyle>(10);
     private List<?> data = null;
 
     //	int startRow = 0;
@@ -351,6 +358,7 @@ public class POISheet implements ISheet {
         cell.setCellType(Cell.CELL_TYPE_BLANK);// 设置单元格类型为空
         cell.setCellType(cellObject.getCellType());// 设置单元格实际类型
 
+        CellStyle cellStyle = cellObject.getCellStyle();
         if (cellObject.getCellType() == Cell.CELL_TYPE_NUMERIC && value != null) {
             if (value instanceof Short) {
                 cell.setCellValue((Short) value);
@@ -376,8 +384,11 @@ public class POISheet implements ISheet {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     String pattern = cellObject.getDataFormat().replace("_","");
                     cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
-                    //把样式更新为文本。
-                    cellObject.getCellStyle().setDataFormat(cellObject.getSheet().getWorkbook().createDataFormat().getFormat(ExcelConsts.CELL_FORMATE_TEXT));
+                    //创建一个文本样式
+                    if((cellStyle = bigdecimald2string.get(cellObject.toString())) == null){
+                        cellStyle = POIExcelUtil.createTextCellStyle(cellObject);
+                        bigdecimald2string.put(cellObject.toString(),cellStyle);
+                    }
                 } else {
                     cell.setCellValue(bigDecimal.doubleValue());
                 }
@@ -400,7 +411,7 @@ public class POISheet implements ISheet {
             cell.setCellValue(richString);
         }
 
-        cellObject.setCellStyle();
+        cell.setCellStyle(cellStyle);
     }
 
     public int getNumMergedRegions() {

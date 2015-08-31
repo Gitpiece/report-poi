@@ -190,4 +190,7 @@ public class
 		// nothing to do
 	}
 
+	public String toString(){
+		return this.getCell().getStringCellValue();
+	}
 }
