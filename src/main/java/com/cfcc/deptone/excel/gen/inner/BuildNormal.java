@@ -69,8 +69,8 @@ public class BuildNormal implements BuildStep {
                 //
                 Object value = getPropertyValue(methodcacheMap, datawriterow, dataObj, normal);
                 normal.setCoordinate(normal.getOriginalRow() + datawriterow, normal.getOriginalColumn());
-                normal.setCellStyle();
-                sheet.setCellValue(normal.getOriginalRow() + datawriterow, normal.getOriginalColumn(), normal, value);
+                //normal.setCellStyle();
+                sheet.setCellValueAndStyle(normal.getOriginalRow() + datawriterow, normal.getOriginalColumn(), normal, value);
             }
 
             afterRow();

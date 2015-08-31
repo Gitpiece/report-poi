@@ -17,6 +17,12 @@ dependencies {
     compile 'org.apache.poi:poi-ooxml:3.10.1'
     compile 'commons-logging:commons-logging:1.2'
     compile 'commons-beanutils:commons-beanutils:1.7.0'
+    // test
     testCompile 'commons-io:commons-io:1.4'
     testCompile 'org.testng:testng:6.9.4'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }

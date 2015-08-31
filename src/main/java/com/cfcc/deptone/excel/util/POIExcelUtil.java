@@ -255,7 +255,7 @@ public class POIExcelUtil {
     public static CellStyle createTextCellStyle(ICellObject cellObject) {
         CellStyle cs = cellObject.getSheet().getWorkbook().createCellStyle();
         cs.cloneStyleFrom(cellObject.getCellStyle());
-        cs.setDataFormat(cellObject.getSheet().getWorkbook().createDataFormat().getFormat("@"));
+        cs.setDataFormat(cellObject.getSheet().getWorkbook().createDataFormat().getFormat(ExcelConsts.CELL_FORMATE_TEXT));
         return cs;
     }
 

@@ -192,6 +192,15 @@ public interface ISheet {
     void setCellValue(int row, int column, ICellObject cellObject, Object value);
 
     /**
+     * 设置单元格值和样式
+     *
+     * @param row        行
+     * @param column     列
+     * @param cellObject 单元格对象
+     * @param value      值
+     */
+    void setCellValueAndStyle(int row, int column, ICellObject cellObject, Object value);
+    /**
      * 得到sheet中region个数
      *
      * @return sheet中region的个数

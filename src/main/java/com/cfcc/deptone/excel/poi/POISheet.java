@@ -313,9 +313,10 @@ public class POISheet implements ISheet {
                 String tmpValue = POIExcelUtil.formateBigDecimal(bigDecimal);
                 if (tmpValue.replace(".", "").length() > ExcelConsts.NUMERICAL_VALID_DIGIT) {
                     cell.setCellStyle(cellObject.getCellStyle());
+                    // 设置单元格类型为文本
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     String pattern = cellObject.getDataFormat().replace("_","");
-                    cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal,pattern));
+                    cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
                 } else {
                     cell.setCellValue(bigDecimal.doubleValue());
                 }
@@ -337,6 +338,69 @@ public class POISheet implements ISheet {
                             .valueOf(value));
             cell.setCellValue(richString);
         }
+    }
+
+
+    /**
+     * 支持的数据类型有：
+     * 2013-10-25之前 Short Integer Long Double BigDecimal Date Calendar String
+     * 2013-10-25新增 Boolean Float
+     */
+    public void setCellValueAndStyle(int row, int column, ICellObject cellObject, Object value) {
+        Cell cell = getCell(row, column);
+        cell.setCellType(Cell.CELL_TYPE_BLANK);// 设置单元格类型为空
+        cell.setCellType(cellObject.getCellType());// 设置单元格实际类型
+
+        if (cellObject.getCellType() == Cell.CELL_TYPE_NUMERIC && value != null) {
+            if (value instanceof Short) {
+                cell.setCellValue((Short) value);
+            } else if (value instanceof Integer) {
+                cell.setCellValue((Integer) value);
+            } else if (value instanceof Long) {
+                cell.setCellValue((Long) value);
+            } else if (value instanceof Float) {
+                //如果数值类型的值位数大于 com.cfcc.deptone.excel.util.ExcelConsts.NUMERICAL_VALID_DIGIT
+                //转化为文本写入单元格
+                cell.setCellValue((Float) value);
+            } else if (value instanceof Double) {
+
+                cell.setCellValue((Double) value);
+            } else if (value instanceof BigDecimal) {
+                //如果数值类型的值位数大于 com.cfcc.deptone.excel.util.ExcelConsts.NUMERICAL_VALID_DIGIT
+                //转化为文本写入单元格
+                BigDecimal bigDecimal = (BigDecimal) value;
+                String tmpValue = POIExcelUtil.formateBigDecimal(bigDecimal);
+                if (tmpValue.replace(".", "").length() > ExcelConsts.NUMERICAL_VALID_DIGIT) {
+                    cell.setCellStyle(cellObject.getCellStyle());
+                    // 设置单元格类型为文本
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    String pattern = cellObject.getDataFormat().replace("_","");
+                    cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
+                    //把样式更新为文本。
+                    cellObject.getCellStyle().setDataFormat(cellObject.getSheet().getWorkbook().createDataFormat().getFormat(ExcelConsts.CELL_FORMATE_TEXT));
+                } else {
+                    cell.setCellValue(bigDecimal.doubleValue());
+                }
+            } else if (value instanceof Date) {
+                cell.setCellValue((Date) value);
+            } else if (value instanceof Calendar) {
+                cell.setCellValue((Calendar) value);
+            } else if (value instanceof Boolean) {
+                cell.setCellValue((Boolean) value);
+            } else { // 所有其它类型都当作RealichTextString处理
+                RichTextString richString = creationHelper
+                        .createRichTextString(String
+                                .valueOf(value));
+                cell.setCellValue(richString);
+            }
+        } else {
+            RichTextString richString = creationHelper
+                    .createRichTextString(value == null ? "" : String
+                            .valueOf(value));
+            cell.setCellValue(richString);
+        }
+
+        cellObject.setCellStyle();
     }
 
     public int getNumMergedRegions() {
@@ -453,3 +517,4 @@ public class POISheet implements ISheet {
         this.sheet.setColumnWidth(columnIndex,width);
     }
 }
+
