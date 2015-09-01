@@ -24,6 +24,8 @@ public class
 
 	private ISheet sheet;
 	private Cell cell;
+	/**模板中定义的原始字符串*/
+	private String stringCellValue;
 
 	private CellStyle style;
 	private CellRangeAddress rangeAddress;
@@ -47,6 +49,7 @@ public class
 	
 	protected POICellObject(ISheet sheet, Cell cell, boolean emptyV) throws POIException {
 		this.cell = cell;
+		this.stringCellValue = this.getCell().getStringCellValue();
 		this.sheet = sheet;
 		this.style = cell.getCellStyle();
 		this.dataFormat = this.style.getDataFormatString();
@@ -191,6 +194,6 @@ public class
 	}
 
 	public String toString(){
-		return this.getCell().getStringCellValue();
+		return this.stringCellValue;
 	}
 }

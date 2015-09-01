@@ -46,7 +46,7 @@ public class TestData {
         _tmp.setName("税收收入");
 //        _tmp.setNavelamt(0);
         _tmp.setNavelyearamt(0);
-        _tmp.setLocalamt(new BigDecimal(999999999999999.8));
+        _tmp.setLocalamt(new BigDecimal(123.2));
         _tmp.setLocalyearamt(111625891111.23);
         _tmp.setSUM_amt(0.07);
         _tmp.setSUM_yearamt(111625891111.23);
@@ -68,8 +68,8 @@ public class TestData {
         _tmp.setName("国内增值税");
         _tmp.setNavelamt(3);
         _tmp.setNavelyearamt(0);
-        _tmp.setLocalamt(new BigDecimal(237808580.07));
-        _tmp.setLocalyearamt(1116258911.23);
+        _tmp.setLocalamt(new BigDecimal("999999999999999999999.23"));
+        _tmp.setLocalyearamt(151654231.0);
         _tmp.setSUM_amt(1.0);
         _tmp.setSUM_yearamt(1116258911.23);
         list.add(_tmp);
