@@ -383,6 +383,7 @@ public class POISheet implements ISheet {
                     // 设置单元格类型为文本
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     String pattern = cellObject.getDataFormat().replace("_","");
+                    pattern = pattern.replace("\"","");
                     cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
                     //创建一个文本样式
                     if((cellStyle = bigdecimald2string.get(cellObject.toString())) == null){

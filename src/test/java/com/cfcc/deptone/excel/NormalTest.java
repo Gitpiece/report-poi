@@ -22,6 +22,15 @@ public class NormalTest {
 		excelBuilder.build( TestData.reportPath+"normal-out.xls", TestData.getMetadata(), TestData.getNormalList());
 	}
 
+	@Test
+	public void testNormal20034ChineseName() throws Exception {
+		String template = "normal中文.xls";
+		String report = "normal-out中文.xls";
+		POIExcelUtil.copyFile(new File(TestData.resourcePath + template), new File(TestData.reportPath + report));
+		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
+		excelBuilder.build( TestData.reportPath+report, TestData.getMetadata(), TestData.getNormalList());
+	}
+
 	/**
 	 * 当map中传递了sheetname并且并且在模板中不存在的情况
 	 * @throws Exception

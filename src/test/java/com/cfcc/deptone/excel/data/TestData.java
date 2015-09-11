@@ -56,7 +56,7 @@ public class TestData {
         _tmp.setSbtcode("101");
         _tmp.setName("增值税");
         _tmp.setNavelamt(1);
-        _tmp.setNavelyearamt(0);
+//        _tmp.setNavelyearamt(0);
         _tmp.setLocalamt(new BigDecimal(2378085806.07));
         _tmp.setLocalyearamt(11162589111.23);
         _tmp.setSUM_amt(0.67);
@@ -67,7 +67,7 @@ public class TestData {
         _tmp.setSbtcode("1010101");
         _tmp.setName("国内增值税");
         _tmp.setNavelamt(3);
-        _tmp.setNavelyearamt(0);
+//        _tmp.setNavelyearamt(0);
         _tmp.setLocalamt(new BigDecimal("999999999999999999999.23"));
         _tmp.setLocalyearamt(151654231.0);
         _tmp.setSUM_amt(1.0);
