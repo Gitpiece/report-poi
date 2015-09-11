@@ -55,7 +55,7 @@ public class POISheet implements ISheet {
     /**
      * bigDecimal 转化为string的样式缓存，key为定义的占位符。
      */
-    private Map<String,CellStyle> bigdecimald2string = new HashMap<String, CellStyle>(10);
+    private Map<String, CellStyle> bigdecimald2string = new HashMap<String, CellStyle>(10);
     private List<?> data = null;
 
     //	int startRow = 0;
@@ -175,7 +175,7 @@ public class POISheet implements ISheet {
                     groupsize++;
                 }
             }
-            Assert.isTrue(groupsize == 1,sm.getString("poi.normal.groupsizeerror",groupsize));
+            Assert.isTrue(groupsize == 1, sm.getString("poi.normal.groupsizeerror", groupsize));
             //如果模板定义了小计并且只有一个group标示，更新小计标示为true
             this.setSubTotal(true);
         }
@@ -322,7 +322,7 @@ public class POISheet implements ISheet {
                     cell.setCellStyle(cellObject.getCellStyle());
                     // 设置单元格类型为文本
                     cell.setCellType(Cell.CELL_TYPE_STRING);
-                    String pattern = cellObject.getDataFormat().replace("_","");
+                    String pattern = cellObject.getDataFormat().replace("_", "");
                     cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
                 } else {
                     cell.setCellValue(bigDecimal.doubleValue());
@@ -382,13 +382,13 @@ public class POISheet implements ISheet {
                     cell.setCellStyle(cellObject.getCellStyle());
                     // 设置单元格类型为文本
                     cell.setCellType(Cell.CELL_TYPE_STRING);
-                    String pattern = cellObject.getDataFormat().replace("_","");
-                    pattern = pattern.replace("\"","");
+                    String pattern = cellObject.getDataFormat().replace("_", "");
+                    pattern = pattern.replace("\"", "");
                     cell.setCellValue(POIExcelUtil.formateBigDecimal(bigDecimal, pattern));
                     //创建一个文本样式
-                    if((cellStyle = bigdecimald2string.get(cellObject.toString())) == null){
+                    if ((cellStyle = bigdecimald2string.get(cellObject.toString())) == null) {
                         cellStyle = POIExcelUtil.createTextCellStyle(cellObject);
-                        bigdecimald2string.put(cellObject.toString(),cellStyle);
+                        bigdecimald2string.put(cellObject.toString(), cellStyle);
                     }
                 } else {
                     cell.setCellValue(bigDecimal.doubleValue());
@@ -406,10 +406,10 @@ public class POISheet implements ISheet {
                 cell.setCellValue(richString);
             }
         } else {
-            RichTextString richString = creationHelper
-                    .createRichTextString(value == null ? "" : String
-                            .valueOf(value));
-            cell.setCellValue(richString);
+//            RichTextString richString = creationHelper
+//                    .createRichTextString(value == null ? null : String
+//                            .valueOf(value));
+            cell.setCellValue(value == null ? null : String.valueOf(value));
         }
 
         cell.setCellStyle(cellStyle);
@@ -497,25 +497,25 @@ public class POISheet implements ISheet {
     }
 
 
-    public int getDataRightColumn(){
+    public int getDataRightColumn() {
         int dataRightColumn = 0;
-        if(SheetType.CROSSTAB_SHEET.equals(this.getSheetType())){
-            List<ICrossTab>  iCrossTabs = POIExcelUtil.getAllDataCross(this.getAllCrossTab());
+        if (SheetType.CROSSTAB_SHEET.equals(this.getSheetType())) {
+            List<ICrossTab> iCrossTabs = POIExcelUtil.getAllDataCross(this.getAllCrossTab());
             ICrossTab iCrossTab = iCrossTabs.get(0);
             dataRightColumn = iCrossTab.getOriginalColumn() + this.dataOffColumn;
-        }else if(SheetType.NORMAL_SHEET.equals(this.getSheetType())){
+        } else if (SheetType.NORMAL_SHEET.equals(this.getSheetType())) {
             dataRightColumn = this.dataOffColumn;
         }
         return dataRightColumn;
     }
 
-    public int getDataLeftColumn(){
+    public int getDataLeftColumn() {
         int dataLeftColumn = 0;
-        if(SheetType.CROSSTAB_SHEET.equals(this.getSheetType())){
-            List<ICrossTab>  iCrossTabs = POIExcelUtil.getAllRowCross(this.getAllCrossTab());
+        if (SheetType.CROSSTAB_SHEET.equals(this.getSheetType())) {
+            List<ICrossTab> iCrossTabs = POIExcelUtil.getAllRowCross(this.getAllCrossTab());
             ICrossTab iCrossTab = iCrossTabs.get(0);
             dataLeftColumn = iCrossTab.getOriginalColumn();
-        }else if(SheetType.NORMAL_SHEET.equals(this.getSheetType())){
+        } else if (SheetType.NORMAL_SHEET.equals(this.getSheetType())) {
             dataLeftColumn = this.getAllNormal().get(0).getOriginalColumn();
         }
         return dataLeftColumn;
@@ -526,7 +526,7 @@ public class POISheet implements ISheet {
     }
 
     public void setColumnWidth(int columnIndex, int width) {
-        this.sheet.setColumnWidth(columnIndex,width);
+        this.sheet.setColumnWidth(columnIndex, width);
     }
 }
 
