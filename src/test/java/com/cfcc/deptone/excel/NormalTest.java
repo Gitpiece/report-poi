@@ -15,11 +15,27 @@ import java.util.List;
 import java.util.Map;
 
 public class NormalTest {
+
 	@Test
 	public void testNormal2003() throws Exception {
 		POIExcelUtil.copyFile(new File(TestData.resourcePath + "normal.xls"), new File(TestData.reportPath + "normal-out.xls"));
 		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
 		excelBuilder.build( TestData.reportPath+"normal-out.xls", TestData.getMetadata(), TestData.getNormalList());
+	}
+
+	@Test
+	public void testNormal2003writetwice() throws Exception {
+		String reportfile = TestData.reportPath + "normal-twice-out.xls";
+		POIExcelUtil.copyFile(new File(TestData.resourcePath + "normal-twice.xls"), new File(reportfile));
+		ExcelBuilder excelBuilder = ExcelBuilderFactory.getBuilder();
+		Map<String,Object> map = TestData.getMetadata();
+		map.put("sn","#{normal.SN}");
+		map.put("sbtcode","#{normal.sbtcode}");
+		map.put("name","#{normal.name}");
+		map.put("localamt","#{normal.localamt}");
+		map.put("localyearamt","#{normal.localyearamt}");
+		excelBuilder.build(reportfile, map, TestData.getNormalList());
+		excelBuilder.build(reportfile, map, TestData.getNormalList());
 	}
 
 	@Test

@@ -121,12 +121,14 @@ public abstract class AbstractExcelBuilder implements ExcelBuilder {
      * <br />
      * 如果数据中包含ExcelConsts.REPORT_TEMPLATE_SHEET_NAME，有可能一个sheet模板会写两遍数据。
      */
-    List<ExcelBuilderInfo> excelBuilderList = new ArrayList<ExcelBuilderInfo>(2);
+    List<ExcelBuilderInfo> excelBuilderList = new ArrayList<ExcelBuilderInfo>(10);
 
     /**
      * 构建报表构建信息
      */
     protected void buildExcelBuilderInfoList() {
+        //清空
+        this.excelBuilderList.clear();
 
         //按顺序遍历所有sheet页，整理ExcelBuilderInfo
         for (int index = 0; index < numberOfSheets; index++) {
