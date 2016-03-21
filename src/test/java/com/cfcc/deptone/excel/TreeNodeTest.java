@@ -36,4 +36,13 @@ public class TreeNodeTest {
 		
 	}
 	
+	public static void main(String[] args){
+		TreeNodeTest t = new TreeNodeTest();
+		while(t != null){
+			if(t == null){
+				return ;
+			}
+		}
+	}
+	
 }
