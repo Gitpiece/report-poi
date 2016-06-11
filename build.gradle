@@ -7,8 +7,9 @@ targetCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
+	//mavenRepo urls: "file:///D:/OneDrive/.m2/repository"
     mavenLocal()
-    jcenter()
+    //jcenter()
     mavenCentral()
     //maven { url "http://repo.spring.io/release",url "http://maven.petrikainulainen.net/repo" }
 }
