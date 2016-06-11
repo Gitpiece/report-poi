@@ -5,4 +5,5 @@
 /target
 /build
 /.gradle
+/.sonar
 /.idea
