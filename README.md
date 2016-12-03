@@ -1,7 +1,9 @@
+# report-poi
+
 # 变量说明
-	metaDataMap：Map类型，key-value数据集
-	rptResultList：List类型，报表的数据集，集合中保存的是DTO对象，有序。
-	表格批注：文本，添加批注之后，需要把批注中的内容清空再填写批注内容。
+metaDataMap：Map类型，key-value数据集
+rptResultList：List类型，报表的数据集，集合中保存的是DTO对象，有序。
+表格批注：文本，添加批注之后，需要把批注中的内容清空再填写批注内容。
 ==================================================================================
 报表模板元素定义的格式为 #{type.[options]} ,
 type为元素类型，options部分每种元素不尽相同。在1.2.1版本之后，options会慢慢被批注方式替代。
@@ -13,6 +15,7 @@ type为元素类型，options部分每种元素不尽相同。在1.2.1版本之�
 批注：
 增加：margin right 1，margin left 1，margin center 0，在交叉报表时控制表头表尾的位置。
 注意：margin对非center的操作可能会有问题，请测试后使用。
+
 
 # footer表尾:
 #{footer.property}，property为metaDataMap中的key，程序会通过property从map中获取value。footer元素在写入时会根据写入的数据区的行数进行位移，如：模板中一个footer元素定义的坐标为B10，报表数据写入了10行，那么在报表中的footer坐标会位移到B19。
