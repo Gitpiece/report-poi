@@ -4,7 +4,9 @@
 metaDataMap：Map类型，key-value数据集
 rptResultList：List类型，报表的数据集，集合中保存的是DTO对象，有序。
 表格批注：文本，添加批注之后，需要把批注中的内容清空再填写批注内容。
+
 ==================================================================================
+
 报表模板元素定义的格式为 #{type.[options]} ,
 type为元素类型，options部分每种元素不尽相同。在1.2.1版本之后，options会慢慢被批注方式替代。
 结合resource中的模板阅读本说明，效果更佳。
@@ -12,6 +14,7 @@ type为元素类型，options部分每种元素不尽相同。在1.2.1版本之�
 # head表头:
 #{header.property}，property为metaDataMap中的key，程序会通过property从map中获取value。head元素在写入时的坐标和模板中定义的相同，不会有位移。
 可以设置合并单元格，需要设置单元格格式。
+
 批注：
 增加：margin right 1，margin left 1，margin center 0，在交叉报表时控制表头表尾的位置。
 注意：margin对非center的操作可能会有问题，请测试后使用。
