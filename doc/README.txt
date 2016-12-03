@@ -1,4 +1,4 @@
-变量说明
+#变量说明
 	metaDataMap：Map类型，key-value数据集
 	rptResultList：List类型，报表的数据集，集合中保存的是DTO对象，有序。
 	表格批注：文本，添加批注之后，需要把批注中的内容清空再填写批注内容。
