@@ -10,9 +10,7 @@ targetCompatibility = 1.6
 
 repositories {
     mavenLocal()
-    //jcenter()
     mavenCentral()
-    //maven { url "http://repo.spring.io/release",url "http://maven.petrikainulainen.net/repo" }
 }
 
 dependencies {
