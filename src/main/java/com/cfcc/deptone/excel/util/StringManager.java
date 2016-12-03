@@ -32,9 +32,9 @@ import org.apache.commons.logging.LogFactory;
  * <p>Please see the documentation for java.util.ResourceBundle for
  * more information.
  *
- * <p>Code from Apache Tomcat 6.0.
+ * <p>Coding from Apache Tomcat 6.0.
  * 
- * @since JDK1.5
+ * @since jdk1.5
  * 
  * @author James Duncan Davidson [duncan@eng.sun.com]
  * @author James Todd [gonzo@eng.sun.com]
